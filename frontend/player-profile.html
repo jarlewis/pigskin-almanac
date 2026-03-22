@@ -116,10 +116,7 @@
     <a href="player-profile.html" class="nav-link active">Players</a>
     <a href="comparison.html" class="nav-link">Compare</a>
   </div>
-  <select class="nav-season" id="seasonSelect">
-    <option value="2024">2024</option><option value="2023">2023</option>
-    <option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option>
-  </select>
+  <select class="nav-season" id="seasonSelect"></select>
 </nav>
 
 <div class="search-bar">
@@ -163,8 +160,10 @@
   const fmt = n => n == null ? '—' : Number(n).toLocaleString();
   const dec = (n, d=1) => n == null ? '—' : parseFloat(n).toFixed(d);
 
-  document.getElementById('seasonSelect').value = SEASON;
-  document.getElementById('seasonSelect').addEventListener('change', e => { SEASON = parseInt(e.target.value); if (PLAYER_ID) loadPlayer(); });
+  const sel = document.getElementById('seasonSelect');
+  for (let y = 2025; y >= 1999; y--) { const o = document.createElement('option'); o.value = o.textContent = y; sel.appendChild(o); }
+  sel.value = SEASON;
+  sel.addEventListener('change', e => { SEASON = parseInt(e.target.value); if (PLAYER_ID) loadPlayer(); });
 
   // Search
   let searchTimer;
