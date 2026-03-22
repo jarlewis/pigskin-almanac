@@ -1,32 +1,3 @@
-# render.yaml — Render Blueprint
-# Deploy all services with: render blueprint apply
-
-databases:
-  - name: pigskin-db
-    plan: starter
-    databaseName: pigskin_almanac
-    postgresMajorVersion: 16
-
-services:
-  - type: web
-    name: pigskin-api
-    runtime: node
-    plan: starter
-    buildCommand: npm install && node scripts/db-init.js
-    startCommand: npm start
-    healthCheckPath: /api/sync/status
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: pigskin-db
-          property: connectionString
-      - key: NODE_ENV
-        value: production
-      - key: CURRENT_SEASON
-        value: "2025"
-      - key: SYNC_ON_STARTUP
-        value: "true"
-      - key: SYNC_CRON
-        value: "*/15 * * * *"
-
-# pigskin-frontend will be added here once the frontend/ directory is built
+# render.yaml — no longer used
+# Stack is now: Railway (API) + Vercel (frontend) + Supabase (database)
+# See railway.json and vercel.json

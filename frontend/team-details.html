@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team — Pigskin Almanac</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #030712; --surface: #0b1326; --surface2: #111827;
+    --border: #1f2937; --text: #f8fafc; --muted: #9ca3af;
+    --green: #10b981; --green2: #16a34a; --gold: #f59e0b; --red: #ef4444;
+    --font-display: 'Barlow Condensed', serif;
+    --font-body: 'Barlow', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(255,255,255,0.03) 49px, rgba(255,255,255,0.03) 50px); }
+
+  nav { position: sticky; top: 0; z-index: 50; background: rgba(3,7,18,0.9); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; gap: 2rem; height: 56px; }
+  .nav-logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--text); text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem; letter-spacing: 0.05em; }
+  .nav-links { display: flex; gap: 0.25rem; margin-left: auto; }
+  .nav-link { font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); text-decoration: none; padding: 0.375rem 0.75rem;
+    border-radius: 0.5rem; transition: all 0.15s; }
+  .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .nav-link.active { color: var(--green); }
+  .nav-season { font-family: var(--font-mono); font-size: 0.75rem; background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 0.25rem 0.6rem; border-radius: 0.5rem; cursor: pointer; }
+
+  /* TEAM SEARCH */
+  .team-search-bar { padding: 1rem 1.5rem; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
+    background: rgba(11,19,38,0.6); border-bottom: 1px solid var(--border); }
+  .team-search-label { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); }
+  .team-btn { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; padding: 0.3rem 0.65rem; border-radius: 0.4rem; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .team-btn:hover, .team-btn.active { background: var(--green2); border-color: var(--green2); color: #fff; }
+
+  /* HERO */
+  .hero { padding: 2rem 1.5rem;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(22,163,74,0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(251,191,36,0.08), transparent); }
+  .hero-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; }
+  .hero-logo { width: 80px; height: 80px; object-fit: contain; }
+  .hero-eyebrow { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.15em; color: rgba(16,185,129,0.7); margin-bottom: 0.25rem; }
+  .hero-name { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 900;
+    text-transform: uppercase; letter-spacing: 0.03em; line-height: 1; }
+  .hero-record { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--muted); margin-top: 0.25rem; }
+  .hero-pts { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
+
+  /* MAIN */
+  .main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+
+  /* STAT CARDS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: 1.1rem 1.25rem;
+    position: relative; overflow: hidden; backdrop-filter: blur(4px);
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%); transition: border-color 0.2s; }
+  .stat-card:hover { border-color: rgba(251,191,36,0.2); }
+  .stat-value { font-family: var(--font-display); font-size: 2.25rem; font-weight: 900; color: var(--text); line-height: 1; }
+  .stat-label { font-family: var(--font-display); font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.15em; color: rgba(255,255,255,0.4); margin-top: 0.4rem; }
+
+  /* CARD */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; overflow: hidden; }
+  .card-header { padding: 1rem 1.25rem 0.75rem; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 0.75rem; }
+  .section-eyebrow { font-family: var(--font-display); font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.15em; color: rgba(16,185,129,0.7); }
+  .section-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  thead th { font-family: var(--font-display); font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); padding: 0.5rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+  thead th:not(:first-child) { text-align: right; }
+  tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+  tbody td { padding: 0.55rem 1rem; }
+  tbody td:not(:first-child) { text-align: right; font-family: var(--font-mono); font-size: 0.78rem; }
+  .clickable { cursor: pointer; }
+  .clickable:hover .player-name { color: var(--green); }
+  .player-name { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; text-decoration: none; color: inherit; transition: color 0.15s; }
+  .pos-badge { font-family: var(--font-display); font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    padding: 0.1rem 0.35rem; border-radius: 0.25rem; background: rgba(255,255,255,0.08); color: var(--muted); margin-left: 0.4rem; }
+  .roster-section-head td { font-family: var(--font-display); font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: rgba(16,185,129,0.6); padding: 0.75rem 1rem 0.25rem; background: rgba(16,185,129,0.04); }
+
+  .badge-win { display: inline-flex; align-items: center; border-radius: 0.25rem; padding: 0.1rem 0.4rem;
+    font-family: var(--font-display); font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    background: rgba(16,185,129,0.2); color: #34d399; }
+  .badge-loss { display: inline-flex; align-items: center; border-radius: 0.25rem; padding: 0.1rem 0.4rem;
+    font-family: var(--font-display); font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    background: rgba(239,68,68,0.2); color: #f87171; }
+  .badge-upcoming { display: inline-flex; align-items: center; border-radius: 0.25rem; padding: 0.1rem 0.4rem;
+    font-family: var(--font-display); font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    background: rgba(245,158,11,0.15); color: #fbbf24; }
+
+  .skeleton { border-radius: 0.5rem; background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+    background-size: 200% 100%; animation: shimmer 1.8s infinite; }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  .skel-row { height: 40px; margin: 2px 1rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="dashboard.html" class="nav-logo">🏈 Pigskin Almanac</a>
+  <div class="nav-links">
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
+    <a href="team-details.html" class="nav-link active">Teams</a>
+    <a href="player-profile.html" class="nav-link">Players</a>
+    <a href="comparison.html" class="nav-link">Compare</a>
+  </div>
+  <select class="nav-season" id="seasonSelect">
+    <option value="2024">2024</option><option value="2023">2023</option>
+    <option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option>
+  </select>
+</nav>
+
+<!-- Team Quick-Pick -->
+<div class="team-search-bar" id="teamBar">
+  <span class="team-search-label">Team:</span>
+  <div id="teamButtons" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
+</div>
+
+<!-- Hero -->
+<div class="hero" id="hero">
+  <div class="hero-inner">
+    <img class="hero-logo" id="heroLogo" src="" alt="" onerror="this.style.display='none'">
+    <div>
+      <div class="hero-eyebrow" id="heroConf"></div>
+      <div class="hero-name" id="heroName">Loading…</div>
+      <div class="hero-record" id="heroRecord"></div>
+      <div class="hero-pts" id="heroPts"></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <!-- Team Stats -->
+  <div>
+    <div style="margin-bottom:.75rem"><span class="section-eyebrow">Season Totals</span> <span class="section-title">Team Stats</span></div>
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card skeleton" style="height:90px;"></div>
+      <div class="stat-card skeleton" style="height:90px;"></div>
+      <div class="stat-card skeleton" style="height:90px;"></div>
+      <div class="stat-card skeleton" style="height:90px;"></div>
+      <div class="stat-card skeleton" style="height:90px;"></div>
+      <div class="stat-card skeleton" style="height:90px;"></div>
+    </div>
+  </div>
+
+  <!-- Schedule -->
+  <div class="card">
+    <div class="card-header"><span class="section-eyebrow">Season</span><span class="section-title">Schedule</span></div>
+    <div id="scheduleTable"><div class="skel-row skeleton"></div><div class="skel-row skeleton"></div><div class="skel-row skeleton"></div></div>
+  </div>
+
+  <!-- Roster -->
+  <div class="card">
+    <div class="card-header"><span class="section-eyebrow">Current</span><span class="section-title">Roster</span></div>
+    <div id="rosterTable"><div class="skel-row skeleton"></div><div class="skel-row skeleton"></div><div class="skel-row skeleton"></div></div>
+  </div>
+</div>
+
+<script>
+  const TEAMS = ['ARI','ATL','BAL','BUF','CAR','CHI','CIN','CLE','DAL','DEN','DET','GB','HOU','IND','JAX','KC',
+    'LAC','LAR','LV','MIA','MIN','NE','NO','NYG','NYJ','PHI','PIT','SEA','SF','TB','TEN','WAS'];
+  const params = new URLSearchParams(location.search);
+  let ABBR = params.get('abbr') || 'KC';
+  let SEASON = parseInt(params.get('season')) || 2024;
+  const fmt = n => n == null ? '—' : Number(n).toLocaleString();
+
+  document.getElementById('seasonSelect').value = SEASON;
+  document.getElementById('seasonSelect').addEventListener('change', e => { SEASON = parseInt(e.target.value); loadTeam(); });
+
+  // Build team buttons
+  const btnContainer = document.getElementById('teamButtons');
+  TEAMS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'team-btn' + (t === ABBR ? ' active' : '');
+    btn.textContent = t;
+    btn.onclick = () => { ABBR = t; document.querySelectorAll('.team-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); loadTeam(); };
+    btnContainer.appendChild(btn);
+  });
+
+  async function loadTeam() {
+    history.replaceState(null, '', `?abbr=${ABBR}&season=${SEASON}`);
+    await Promise.all([loadHero(), loadStats(), loadSchedule(), loadRoster()]);
+  }
+
+  async function loadHero() {
+    try {
+      const d = await fetch(`/api/teams/${ABBR}?season=${SEASON}`).then(r => r.json());
+      document.title = `${d.team_name} — Pigskin Almanac`;
+      document.getElementById('heroLogo').src = d.team_logo_espn || '';
+      document.getElementById('heroName').textContent = d.team_name || ABBR;
+      document.getElementById('heroConf').textContent = [d.team_conf, d.team_division].filter(Boolean).join(' · ');
+      const r = d.record;
+      document.getElementById('heroRecord').textContent = r ? `${r.wins}-${r.losses}${r.ties ? '-'+r.ties : ''}` : '';
+      document.getElementById('heroPts').textContent = r ? `PF ${fmt(r.points_for)}  ·  PA ${fmt(r.points_against)}  ·  Diff ${r.point_diff > 0 ? '+' : ''}${r.point_diff}` : '';
+    } catch(e) { document.getElementById('heroName').textContent = ABBR; }
+  }
+
+  async function loadStats() {
+    const el = document.getElementById('statsGrid');
+    try {
+      const s = await fetch(`/api/teams/${ABBR}/stats?season=${SEASON}`).then(r => r.json());
+      const cards = [
+        ['Pass Yards', fmt(s.total_pass_yards)], ['Pass TDs', fmt(s.total_pass_tds)],
+        ['Rush Yards', fmt(s.total_rush_yards)], ['Rush TDs', fmt(s.total_rush_tds)],
+        ['Rec Yards', fmt(s.total_rec_yards)], ['Interceptions', fmt(s.total_ints)],
+      ];
+      el.innerHTML = cards.map(([label, val]) => `
+        <div class="stat-card">
+          <div class="stat-value">${val}</div>
+          <div class="stat-label">${label}</div>
+        </div>`).join('');
+    } catch(e) { el.innerHTML = '<p style="color:var(--muted);font-size:.85rem;padding:.5rem">No stats available</p>'; }
+  }
+
+  async function loadSchedule() {
+    const el = document.getElementById('scheduleTable');
+    try {
+      const rows = await fetch(`/api/teams/${ABBR}/schedule?season=${SEASON}`).then(r => r.json());
+      if (!rows.length) { el.innerHTML = '<p style="padding:1rem;color:var(--muted);font-size:.85rem">No schedule data</p>'; return; }
+      let html = `<table><thead><tr><th>Wk</th><th style="text-align:left">Opponent</th><th>Result</th><th>Score</th><th>Date</th></tr></thead><tbody>`;
+      rows.forEach(g => {
+        const isHome = g.home_team === ABBR;
+        const opp = isHome ? g.away_team : g.home_team;
+        const teamScore = isHome ? g.home_score : g.away_score;
+        const oppScore = isHome ? g.away_score : g.home_score;
+        const played = teamScore != null;
+        let badge = '';
+        if (played) badge = teamScore > oppScore ? '<span class="badge-win">W</span>' : teamScore < oppScore ? '<span class="badge-loss">L</span>' : '<span class="badge-upcoming">T</span>';
+        else badge = '<span class="badge-upcoming">-</span>';
+        html += `<tr>
+          <td style="font-family:var(--font-mono);font-size:.78rem">${g.week}</td>
+          <td style="text-align:left;font-family:var(--font-display);font-weight:700">${isHome ? '' : '@'}${opp}</td>
+          <td style="text-align:right">${badge}</td>
+          <td>${played ? `${teamScore}–${oppScore}` : '–'}</td>
+          <td style="font-size:.72rem;color:var(--muted)">${g.gameday || ''}</td>
+        </tr>`;
+      });
+      html += '</tbody></table>';
+      el.innerHTML = html;
+    } catch(e) { el.innerHTML = '<p style="padding:1rem;color:var(--muted);font-size:.85rem">Failed to load</p>'; }
+  }
+
+  async function loadRoster() {
+    const el = document.getElementById('rosterTable');
+    try {
+      const rows = await fetch(`/api/teams/${ABBR}/roster?season=${SEASON}`).then(r => r.json());
+      if (!rows.length) { el.innerHTML = '<p style="padding:1rem;color:var(--muted);font-size:.85rem">No roster data</p>'; return; }
+      const POS_ORDER = ['QB','RB','FB','WR','TE','OL','T','G','C','DE','DT','LB','CB','S','K','P','LS'];
+      const byPos = {};
+      rows.forEach(p => {
+        const pos = p.position || 'OTH';
+        if (!byPos[pos]) byPos[pos] = [];
+        byPos[pos].push(p);
+      });
+      const sorted = Object.entries(byPos).sort(([a],[b]) => { const ai = POS_ORDER.indexOf(a); const bi = POS_ORDER.indexOf(b); return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi); });
+      let html = `<table><thead><tr><th>#</th><th style="text-align:left">Player</th><th>Pos</th><th>Ht</th><th>Wt</th><th>Exp</th></tr></thead><tbody>`;
+      sorted.forEach(([pos, players]) => {
+        html += `<tr class="roster-section-head"><td colspan="6">${pos}</td></tr>`;
+        players.forEach(p => {
+          html += `<tr class="clickable" onclick="location.href='player-profile.html?id=${p.gsis_id}&season=${SEASON}'">
+            <td style="font-family:var(--font-mono);font-size:.75rem;color:var(--muted)">${p.jersey_number || '—'}</td>
+            <td style="text-align:left"><span class="player-name">${p.full_name || p.display_name || '—'}</span></td>
+            <td style="text-align:right">${pos}</td>
+            <td>${p.height || '—'}</td>
+            <td>${p.weight ? p.weight + ' lbs' : '—'}</td>
+            <td>${p.years_of_experience != null ? p.years_of_experience + 'yr' : '—'}</td>
+          </tr>`;
+        });
+      });
+      html += '</tbody></table>';
+      el.innerHTML = html;
+    } catch(e) { el.innerHTML = '<p style="padding:1rem;color:var(--muted);font-size:.85rem">Failed to load</p>'; }
+  }
+
+  loadTeam();
+</script>
+</body>
+</html>
