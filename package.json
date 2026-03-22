@@ -1,0 +1,32 @@
+{
+  "name": "pigskin-almanac-api",
+  "version": "1.0.0",
+  "description": "NFL stats API powered by nflverse data on PostgreSQL",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "dev:frontend": "node dev-server.js",
+    "sync:live": "node src/sync/sync-runner.js live",
+    "sync:backfill": "node src/sync/sync-runner.js backfill",
+    "sync:backfill:force": "node src/sync/sync-runner.js backfill --force",
+    "sync:full": "node src/sync/sync-runner.js full",
+    "init-db": "node scripts/db-init.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "pg": "^8.13.0",
+    "papaparse": "^5.4.1",
+    "node-cron": "^3.0.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "helmet": "^8.0.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^3.0.0"
+  }
+}
